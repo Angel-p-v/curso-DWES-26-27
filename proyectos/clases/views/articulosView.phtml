@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <?php
+        echo '<h2>Articulos publicados</h2>';
+            if($result->num_rows > 0){
+                foreach($posts as $post){
+                    echo '<article>';
+                    echo '<h3>' . ($post->getTitle()) . '</h3>';
+                    echo '<p>' . ($post->getContent()) . '</p>';
+
+                    // Bloque de comentarios de ESTE post
+                    echo '<section>';
+                    echo '<h4>Comentarios</h4>';
+
+                    // getComments() devuelve los CommentRepository de este articulo
+                    foreach($post->getComments() as $comentario){
+                        echo '<article>';
+                        echo '<p>' . ($comentario->getContent()) . '</p>';
+                        echo '<small>' . $comentario->getCreatedAt() . '</small>';
+                        echo '</article>';
+                    }
+                    echo '</section>';
+
+                    // Formulario para comentar ESTE post.
+                    // El campo oculto articulo_id es el que le dice al controller a que post va.
+                    echo '<form action="index.php?opc=articulos" method="post">';
+                    echo '<input type="hidden" name="articulo_id" value="' . $post->getId() . '">';
+                    echo '<textarea name="contenido" placeholder="Escribe tu comentario"></textarea>';
+                    echo '<br>';
+                    echo '<input type="submit" name="comentar" value="Comentar">';
+                    echo '</form>';
+
+                    echo '</article>';
+                    echo '<hr>';
+                }
+            } else {
+                echo "<p>No hay artículos publicados aún.</p>";
+            }
+ 
+    ?>
+</body>
+</html>
