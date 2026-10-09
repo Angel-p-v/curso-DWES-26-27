@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tus pedidos</title>
+</head>
+<body>
+    <h1> Lista de pedidos realizados </h1>
+    <?php
+        $q = "SELECT * FROM orders WHERE buyer_id = ".$_SESSION['user']->getId()."  and status = 1 ORDER BY date DESC";
+        $db = DB::connect();
+        $result = $db->query($q);
+        foreach($result as $row){
+            $orders[] = new Order($row['id'],$row['buyer_id'],$row['total_price'],$row['date'],$row['status']);
+        }
+
+        foreach($orders as $order){
+            echo "pedido: ".$order->getId()." - fecha: ".$order->getDate()." - total: ".$order->getTotal()." - estado: ".$order->getStatus().
+            "<a href='index.php?c=order&show&id=".$order->getId()."'>Ver pedido</a>"."<br>";
+        }
+    ?>
+</body>
+</html>

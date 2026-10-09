@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedido</title>
+</head>
+<body>
+    Este es su pedido:
+    <br>
+
+    <?php
+        echo "fecha: ".$order->getDate()."<br>";
+        foreach($order->getOrderLines() as $ol){
+            echo $ol->getProduct()->getName(). " - ".$ol->getQuantity()." - ".$ol->getPrice().
+            "<a href='index.php?c=order&delete&id=".$ol->getId()."'>Eliminar</a>"."<br>";
+        }
+        echo "total: ".$order->getTotal();
+        echo "<br>";
+        echo "<a href='index.php?c=order&update&id=".$order->getId()."'>Terminar pedido</a>"."<br>";
+?>
+</body>
+</html>

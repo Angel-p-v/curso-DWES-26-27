@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Carrito de Compras</title>
+        <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+                background-color: #f1f5f9;
+                color: #334155;
+                min-height: 100vh;
+                padding: 24px 16px;
+            }
+
+            .container {
+                max-width: 1000px;
+                margin: 0 auto;
+            }
+
+            header {
+                background: #ffffff;
+                padding: 18px 24px;
+                border-radius: 10px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                margin-bottom: 24px;
+            }
+
+            .btn-link {
+                text-decoration: none;
+                color: #2563eb;
+                font-weight: 600;
+                font-size: 14px;
+            }
+
+            .cart-card {
+                background: #ffffff;
+                padding: 28px;
+                border-radius: 10px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            }
+
+            h2 {
+                margin-bottom: 20px;
+                color: #1e293b;
+            }
+
+            /* Tabla del carrito */
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 24px;
+            }
+
+            th, td {
+                padding: 14px 12px;
+                text-align: left;
+                border-bottom: 1px solid #e2e8f0;
+            }
+
+            th {
+                background-color: #f8fafc;
+                color: #64748b;
+                font-size: 14px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .precio-col {
+                font-weight: 600;
+                color: #059669;
+            }
+
+            /* Resumen y Total */
+            .cart-summary {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding-top: 16px;
+                border-top: 2px solid #e2e8f0;
+            }
+
+            .total {
+                font-size: 22px;
+                font-weight: bold;
+                color: #0f172a;
+            }
+
+            .total span {
+                color: #059669;
+            }
+
+            .btn-checkout {
+                background-color: #10b981;
+                color: white;
+                padding: 12px 24px;
+                border-radius: 6px;
+                text-decoration: none;
+                font-weight: 600;
+                transition: background-color 0.2s;
+            }
+
+            .btn-checkout:hover {
+                background-color: #059669;
+            }
+
+            /* Estado vacío */
+            .empty-cart {
+                text-align: center;
+                padding: 40px 20px;
+            }
+
+            .empty-cart p {
+                color: #64748b;
+                font-size: 16px;
+                margin-bottom: 20px;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class="container">
+            <header>
+                <h2>Mi Carrito</h2>
+                <a href="index.php" class="btn-link">← Volver al Catálogo</a>
+            </header>
+
+            <div class="cart-card">
+                <?php if (empty($cartItems)): ?>
+                    <div class="empty-cart">
+                        <p>Tu carrito está vacío actualmente.</p>
+                        <a href="index.php" class="btn-link">Ver catálogo de productos</a>
+                    </div>
+                <?php else: ?>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($cartItems as $item): ?>
+                                <tr>
+                                    <td><strong><?= htmlspecialchars($item['nombre']); ?></strong></td>
+                                    <td><?= htmlspecialchars($item['precio']); ?> €</td>
+                                    <td><?= htmlspecialchars($item['cantidad']); ?></td>
+                                    <td class="precio-col"><?= htmlspecialchars(number_format($item['subtotal'], 2)); ?> €</td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+
+                    <div class="cart-summary">
+                        <div class="total">
+                            Total: <span><?= number_format($totalPrice, 2); ?> €</span>
+                        </div>
+                        <a href="#" class="btn-checkout">Finalizar Compra</a>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+
+    </body>
+    </html>
